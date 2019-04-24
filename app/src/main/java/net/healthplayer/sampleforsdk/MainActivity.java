@@ -5,14 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import net.healthplayer.sdk.DeviceHandler;
-import net.healthplayer.sdk.HealthPlayerDeviceManager;
-import net.healthplayer.sdk.DeviceObserver;
-import net.healthplayer.sdk.HealthcareDataEntity;
-import net.healthplayer.sdk.HealthPlayerModelManager;
-import net.healthplayer.sdk.SensorHandler;
-import net.healthplayer.sdk.SensorObserver;
-import net.healthplayer.sdk.UserProfileEntity;
+import net.healthplayer.sdk.*;
 import net.healthplayer.sdk.util.LogUtil;
 
 import java.util.ArrayList;
@@ -28,6 +21,9 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // prepare variables
+        UserProfileEntity profile;
+
         // normal initialize app
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -40,37 +36,41 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
                 }
         );
 
+        // ModelManager init
         mm.init(this);
+        // Licence check
+        // Register License Code to use SDK
         if (!mm.registerLicense("U2FsdGVkX1+HerQxIOhuKJpZJ9oSlQF/VFiqQghMsROLXKhCuP1sGXUcdoA2tpYUWH84XxqClDQd/wRGX4BHm29VpTLlHoeJUncHFUzDf9g8Ncy1Ur142Ve7kMP3N/scUI9hia4qOrVUG3Az82kvdFeTRaElyyegvbOtBCJyZ/R1ZiJfYKFZXvMNv9NUIul4oM8qwC/WUzDTX0sO+E+bzwg3k34ZNHa/nl1mlSj5nzRoVYQkt237IPbStQ1Vc07YfT5OwsbmoDNqjr2abE7cdLzA1XFcvWMDL8y558AF+rV0giz5wKMBfhCsY0eNC6DsLm4R339vWSHv4fzETC7Fpg==")) {
-            LogUtil.d("BasecSetting", "[onClick] Failed to register License.");
+            LogUtil.d("BaseSetting", "[onClick] Failed to register License.");
         }
+        // DeviceManager init after ModelManager init
         dm.init(this);
 
+        // Try Login to use HealthPlayer with server
         try {
-            if (mm.login("abcdefghijk", "abcdefghijk") == false) {
+            if (!mm.login("abcdefghijk", "abcdefghijk")) {
                 mm.createUserAnonymous("abcdefghijk", "abcdefghijk");
             }
         } catch (Exception e) {
+            LogUtil.d("BaseSetting", "[onClick] Failed to Login.");
             e.printStackTrace();
         }
 
-        UserProfileEntity profile;
-
         try {
-            List<UserProfileEntity> profilelist = new ArrayList<UserProfileEntity>();
-            mm.getProfile(profilelist);
+            // get profiles
+            List<UserProfileEntity> profiles = new ArrayList<UserProfileEntity>();
+            mm.getProfile(profiles);
+            // Create user entity
+            Calendar birth = Calendar.getInstance();
+            birth.set(1998, 1, 17);
+            String gender = "1";
+            double height = 160.0;
+            double weight = 50.2;
+            String area = "tokyo";
+            profile = new UserProfileEntity(birth, gender, height, weight, area);
 
-            {
-                Calendar birth = Calendar.getInstance();
-                birth.set(1998, 1, 17);
-                String gender = "1";
-                double height = 160.0;
-                double weight = 50.2;
-                String area = "tokyo";
-                profile = new UserProfileEntity(birth, gender, height, weight, area);
-
-                mm.setProfile(profile);
-            }
+            // Set User profile of this user
+            mm.setProfile(profile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,11 +79,16 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
 
     // method for click event
     private void buttonClick(View v) {
-        dm.invokeBluetooth("UA-851PBT-C");
+        String devicename = "UA-851PBT-C";
+        dm.invokeBluetooth(devicename);
+        mm.acquireHealthcareData()
+        dm.getPedometerDevice();
     }
 
     @Override
     protected void onDestroy() {
+        // deprecated
+        // どうしたら良いですか?
         dm.revokePassometer();
         super.onDestroy();
     }
