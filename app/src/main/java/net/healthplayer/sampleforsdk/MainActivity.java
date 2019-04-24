@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
     private void buttonClick(View v) {
         String devicename = "UA-851PBT-C";
         dm.invokeBluetooth(devicename);
-        mm.acquireHealthcareData()
+//        mm.acquireHealthcareData();
         dm.getPedometerDevice();
     }
 
