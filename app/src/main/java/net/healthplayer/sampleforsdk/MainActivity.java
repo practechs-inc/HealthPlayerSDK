@@ -1,14 +1,19 @@
 package net.healthplayer.sampleforsdk;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import net.healthplayer.sdk.*;
+
+import net.healthplayer.sdk.DeviceHandler;
+import net.healthplayer.sdk.DeviceObserver;
+import net.healthplayer.sdk.HealthPlayerDeviceManager;
+import net.healthplayer.sdk.HealthPlayerModelManager;
+import net.healthplayer.sdk.HealthcareDataEntity;
+import net.healthplayer.sdk.UserProfileEntity;
 import net.healthplayer.sdk.util.LogUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
