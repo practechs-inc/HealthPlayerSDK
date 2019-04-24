@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SampleForSDK</string>
+    <string name="data_from_device">Device %1$s: %2$s</string>
 </resources>

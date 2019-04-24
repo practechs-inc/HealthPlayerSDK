@@ -3,6 +3,7 @@ package net.healthplayer.sampleforsdk;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import net.healthplayer.sdk.*;
 import net.healthplayer.sdk.util.LogUtil;
 
@@ -101,7 +102,9 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
 
     @Override
     public void notify(DeviceHandler deviceHandler, HealthcareDataEntity healthcareDataEntity) {
-        // do nothing
+        TextView textView = findViewById(R.id.button);
+        textView.setText(getString(R.string.data_from_device,
+                deviceHandler.getDeviceName(), healthcareDataEntity.getValues()));
     }
 
     @Override
