@@ -52,17 +52,16 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
 
             {
                 Calendar birth = Calendar.getInstance();
-                birth.set(1990, 4, 1);
+                birth.set(1998, 1, 17);
                 String gender = "1";
                 double height = 160.0;
-                double weight = 60.0;
+                double weight = 50.2;
                 String area = "tokyo";
                 profile = new UserProfileEntity(birth, gender, height, weight, area);
 
                 mm.setProfile(profile);
             }
         } catch (Exception e) {
-            // TODO 自動生成された catch ブロック
             e.printStackTrace();
         }
         dm.attachDeviceObserver(this);
