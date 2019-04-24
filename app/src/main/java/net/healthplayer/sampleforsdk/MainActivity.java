@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
 
     private HealthPlayerDeviceManager dm = HealthPlayerDeviceManager.getInstance();
     private HealthPlayerModelManager mm = HealthPlayerModelManager.getInstance();
-    private TextView mainTextView = findViewById(R.id.mainTextView);
+    private TextView mainTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         findViewById(R.id.button).setOnClickListener(
                 this::buttonClick
         );
+        mainTextView=findViewById(R.id.mainTextView);
 
         // initialize SDK
         mainTextView.setText(getString(R.string.initializing));
