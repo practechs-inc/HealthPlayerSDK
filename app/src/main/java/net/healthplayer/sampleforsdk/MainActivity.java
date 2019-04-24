@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
         dm.init(this);
 
         try {
-            if (mm.login("abcdefghijk", "abcdefghijk") == false) {
+            if (mm.login("abcdefghijk", "abcdefgighijk") == false) {
                 mm.createUserAnonymous("abcdefghijk", "abcdefghijk");
             }
         } catch (Exception e) {
