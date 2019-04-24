@@ -2,22 +2,22 @@ package net.healthplayer.sampleforsdk;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import net.healthplayer.sdk.*;
 import net.healthplayer.sdk.util.LogUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements SensorObserver, DeviceObserver {
+public class MainActivity extends AppCompatActivity implements DeviceObserver {
 //    public class MainActivity extends AppCompatActivity implements SensorObserver, DeviceObserver {
 
     private HealthPlayerDeviceManager dm = HealthPlayerDeviceManager.getInstance();
     private HealthPlayerModelManager mm = HealthPlayerModelManager.getInstance();
+    private DeviceObserver deviceObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
         String devicename = "UA-851PBT-C";
         dm.invokeBluetooth(devicename);
 //        mm.acquireHealthcareData();
-        dm.getPedometerDevice();
+        dm.revokeBluetooth(devicename);
     }
 
     @Override
@@ -93,32 +93,23 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
         super.onDestroy();
     }
 
+    // Override DeviceManager Interface
     @Override
     public void notify(DeviceHandler deviceHandler, NotifyEvent notifyEvent) {
+        // do nothing
     }
 
     @Override
     public void notify(DeviceHandler deviceHandler, HealthcareDataEntity healthcareDataEntity) {
+        // do nothing
     }
 
     @Override
-    public void notify(DeviceHandler deviceHandler, HealthcareDataEntity[] healthcareDataEntities) {
-    }
-
-    @Override
-    public void notifyStepsData(SensorHandler sensorHandler, HealthcareDataEntity healthcareDataEntity) {
-    }
-
-    @Override
-    public void notifyActivityData(SensorHandler sensorHandler, HealthcareDataEntity healthcareDataEntity) {
-    }
-
-    @Override
-    public void notifyCalorieData(SensorHandler sensorHandler, HealthcareDataEntity healthcareDataEntity) {
-    }
-
-    @Override
-    public void notifyLocationData(SensorHandler sensorHandler, HealthcareDataEntity healthcareDataEntity) {
-        Log.d("MainActivity", "notify location data:" + healthcareDataEntity.getValueString());
+    public void notify(final DeviceHandler deviceHandler, HealthcareDataEntity[] healthcareDataEntities) {
+        Arrays.asList(healthcareDataEntities).forEach(healthcareDataEntity -> {
+                    this.notify(deviceHandler, healthcareDataEntity);
+                }
+        );
+        this.notify();
     }
 }
