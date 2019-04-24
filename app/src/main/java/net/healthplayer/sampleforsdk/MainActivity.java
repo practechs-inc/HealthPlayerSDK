@@ -3,6 +3,7 @@ package net.healthplayer.sampleforsdk;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import net.healthplayer.sdk.DeviceHandler;
 import net.healthplayer.sdk.HealthPlayerDeviceManager;
@@ -23,15 +24,24 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
 //    public class MainActivity extends AppCompatActivity implements SensorObserver, DeviceObserver {
 
     private HealthPlayerDeviceManager dm = HealthPlayerDeviceManager.getInstance();
+    private HealthPlayerModelManager mm = HealthPlayerModelManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // normal initialize app
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.button).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonClick(v);
+                    }
+                }
+        );
 
-        HealthPlayerModelManager mm = HealthPlayerModelManager.getInstance();
         mm.init(this);
-        if (mm.registerLicense("U2FsdGVkX1+HerQxIOhuKJpZJ9oSlQF/VFiqQghMsROLXKhCuP1sGXUcdoA2tpYUWH84XxqClDQd/wRGX4BHm29VpTLlHoeJUncHFUzDf9g8Ncy1Ur142Ve7kMP3N/scUI9hia4qOrVUG3Az82kvdFeTRaElyyegvbOtBCJyZ/R1ZiJfYKFZXvMNv9NUIul4oM8qwC/WUzDTX0sO+E+bzwg3k34ZNHa/nl1mlSj5nzRoVYQkt237IPbStQ1Vc07YfT5OwsbmoDNqjr2abE7cdLzA1XFcvWMDL8y558AF+rV0giz5wKMBfhCsY0eNC6DsLm4R339vWSHv4fzETC7Fpg==") == false) {
+        if (!mm.registerLicense("U2FsdGVkX1+HerQxIOhuKJpZJ9oSlQF/VFiqQghMsROLXKhCuP1sGXUcdoA2tpYUWH84XxqClDQd/wRGX4BHm29VpTLlHoeJUncHFUzDf9g8Ncy1Ur142Ve7kMP3N/scUI9hia4qOrVUG3Az82kvdFeTRaElyyegvbOtBCJyZ/R1ZiJfYKFZXvMNv9NUIul4oM8qwC/WUzDTX0sO+E+bzwg3k34ZNHa/nl1mlSj5nzRoVYQkt237IPbStQ1Vc07YfT5OwsbmoDNqjr2abE7cdLzA1XFcvWMDL8y558AF+rV0giz5wKMBfhCsY0eNC6DsLm4R339vWSHv4fzETC7Fpg==")) {
             LogUtil.d("BasecSetting", "[onClick] Failed to register License.");
         }
         dm.init(this);
@@ -67,78 +77,43 @@ public class MainActivity extends AppCompatActivity implements SensorObserver, D
         dm.attachDeviceObserver(this);
     }
 
+    // method for click event
+    private void buttonClick(View v) {
+        dm.invokeBluetooth("UA-851PBT-C");
+    }
+
     @Override
     protected void onDestroy() {
-        // TODO 自動生成されたメソッド・スタブ
         dm.revokePassometer();
         super.onDestroy();
     }
 
     @Override
     public void notify(DeviceHandler deviceHandler, NotifyEvent notifyEvent) {
-
     }
 
     @Override
     public void notify(DeviceHandler deviceHandler, HealthcareDataEntity healthcareDataEntity) {
-
     }
 
     @Override
     public void notify(DeviceHandler deviceHandler, HealthcareDataEntity[] healthcareDataEntities) {
-
     }
 
     @Override
     public void notifyStepsData(SensorHandler sensorHandler, HealthcareDataEntity healthcareDataEntity) {
-
     }
 
     @Override
     public void notifyActivityData(SensorHandler sensorHandler, HealthcareDataEntity healthcareDataEntity) {
-
     }
 
     @Override
     public void notifyCalorieData(SensorHandler sensorHandler, HealthcareDataEntity healthcareDataEntity) {
-
     }
 
     @Override
     public void notifyLocationData(SensorHandler sensorHandler, HealthcareDataEntity healthcareDataEntity) {
-//        Log.d("MainActivity", "notify location data:" + data.getValueString());
+        Log.d("MainActivity", "notify location data:" + healthcareDataEntity.getValueString());
     }
-//    @Override
-//    public void onClick() {
-//
-//        int id = arg0.getId();
-//        if (id == R.id.button01) {
-//            Intent intent = new Intent(this, ManporoidActivity.class);
-//
-//            startActivity(intent);
-//        }
-//        if (id == R.id.button03) {
-//            dm.attatchSensorObserver(this);
-//            dm.invokeLBS(0);
-//        }
-//        if (id == R.id.button04) {
-//            dm.revokeLBS();
-//            dm.detatchSensorObserver(this);
-//        }
-//        if (id == R.id.button05) {
-//            dm.invokeBluetooth("UA-851PBT-C");
-//            dm.invokeBluetooth("UC-411PBT-C");
-//            dm.invokeBluetooth("TANITA BC-505");
-//        }
-//        if (id == R.id.button07) {
-//            dm.revokeBluetooth("UA-851PBT-C");
-//            dm.revokeBluetooth("UC-411PBT-C");
-//            dm.revokeBluetooth("TANITA BC-505");
-//        }
-//        if (id == R.id.button06) {
-//            Intent intent = new Intent(this, SonyFelicaActivity.class);
-//            startActivity(intent);
-//        }
-//    }
-
 }
