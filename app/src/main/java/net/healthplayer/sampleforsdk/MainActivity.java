@@ -22,7 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SensorObserver, DeviceObserver {
 //    public class MainActivity extends AppCompatActivity implements SensorObserver, DeviceObserver {
 
-    HealthPlayerDeviceManager dm = HealthPlayerDeviceManager.getInstance();
+    private HealthPlayerDeviceManager dm = HealthPlayerDeviceManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
