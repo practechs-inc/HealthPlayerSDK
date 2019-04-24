@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
 
     private HealthPlayerDeviceManager dm = HealthPlayerDeviceManager.getInstance();
     private HealthPlayerModelManager mm = HealthPlayerModelManager.getInstance();
-    private DeviceObserver deviceObserver;
+    private TextView mainTextView = findViewById(R.id.button);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +29,20 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.button).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonClick(v);
-                    }
-                }
+                this::buttonClick
         );
 
+        // initialize SDK
+        mainTextView.setText(getString(R.string.initializing));
         // ModelManager init
         mm.init(this);
-        // Licence check
-        // Register License Code to use SDK
-        if (!mm.registerLicense("U2FsdGVkX1+HerQxIOhuKJpZJ9oSlQF/VFiqQghMsROLXKhCuP1sGXUcdoA2tpYUWH84XxqClDQd/wRGX4BHm29VpTLlHoeJUncHFUzDf9g8Ncy1Ur142Ve7kMP3N/scUI9hia4qOrVUG3Az82kvdFeTRaElyyegvbOtBCJyZ/R1ZiJfYKFZXvMNv9NUIul4oM8qwC/WUzDTX0sO+E+bzwg3k34ZNHa/nl1mlSj5nzRoVYQkt237IPbStQ1Vc07YfT5OwsbmoDNqjr2abE7cdLzA1XFcvWMDL8y558AF+rV0giz5wKMBfhCsY0eNC6DsLm4R339vWSHv4fzETC7Fpg==")) {
-            LogUtil.d("BaseSetting", "[onClick] Failed to register License.");
-        }
-        // DeviceManager init after ModelManager init
-        dm.init(this);
-
         // Try Login to use HealthPlayer with server
         try {
+            // Licence check
+            // Register License Code to use SDK
+            if (!mm.registerLicense("U2FsdGVkX1+HerQxIOhuKJpZJ9oSlQF/VFiqQghMsROLXKhCuP1sGXUcdoA2tpYUWH84XxqClDQd/wRGX4BHm29VpTLlHoeJUncHFUzDf9g8Ncy1Ur142Ve7kMP3N/scUI9hia4qOrVUG3Az82kvdFeTRaElyyegvbOtBCJyZ/R1ZiJfYKFZXvMNv9NUIul4oM8qwC/WUzDTX0sO+E+bzwg3k34ZNHa/nl1mlSj5nzRoVYQkt237IPbStQ1Vc07YfT5OwsbmoDNqjr2abE7cdLzA1XFcvWMDL8y558AF+rV0giz5wKMBfhCsY0eNC6DsLm4R339vWSHv4fzETC7Fpg==")) {
+                LogUtil.d("BaseSetting", "[onClick] Failed to register License.");
+            }
             if (!mm.login("abcdefghijk", "abcdefghijk")) {
                 mm.createUserAnonymous("abcdefghijk", "abcdefghijk");
             }
@@ -56,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
             LogUtil.d("BaseSetting", "[onClick] Failed to Login.");
             e.printStackTrace();
         }
+
+        // DeviceManager init after ModelManager init
+        dm.init(this);
 
         try {
             // get profiles
@@ -80,16 +77,16 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
 
     // method for click event
     private void buttonClick(View v) {
-        String devicename = "UA-851PBT-C";
-        dm.invokeBluetooth(devicename);
+        String deviceName = "UA-851PBT-C";
+        dm.invokeBluetooth(deviceName);
 //        mm.acquireHealthcareData();
-        dm.revokeBluetooth(devicename);
+        dm.revokeBluetooth(deviceName);
     }
 
     @Override
     protected void onDestroy() {
         // deprecated
-        // どうしたら良いですか?
+        // こちら使用できますか
         dm.revokePassometer();
         super.onDestroy();
     }
@@ -102,8 +99,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
 
     @Override
     public void notify(DeviceHandler deviceHandler, HealthcareDataEntity healthcareDataEntity) {
-        TextView textView = findViewById(R.id.button);
-        textView.setText(getString(R.string.data_from_device,
+        mainTextView.setText(getString(R.string.data_from_device,
                 deviceHandler.getDeviceName(), healthcareDataEntity.getValues()));
     }
 
