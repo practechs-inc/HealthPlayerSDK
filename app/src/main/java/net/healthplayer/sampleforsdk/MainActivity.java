@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
 
     @Override
     public void notify(final DeviceHandler deviceHandler, HealthcareDataEntity[] healthcareDataEntities) {
-        for (HealthcareDataEntity healthcareDataEntity : Arrays.asList(healthcareDataEntities)) {
+        for (HealthcareDataEntity healthcareDataEntity : healthcareDataEntities) {
             this.notify(deviceHandler, healthcareDataEntity);
         }
         this.notify();
