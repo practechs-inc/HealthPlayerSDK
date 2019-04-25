@@ -4,11 +4,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import net.healthplayer.sdk.*;
+
+import net.healthplayer.sdk.DeviceHandler;
+import net.healthplayer.sdk.DeviceObserver;
+import net.healthplayer.sdk.HealthPlayerDeviceManager;
+import net.healthplayer.sdk.HealthPlayerModelManager;
+import net.healthplayer.sdk.HealthcareDataEntity;
+import net.healthplayer.sdk.UserProfileEntity;
 import net.healthplayer.sdk.util.LogUtil;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Sample application for using device
@@ -38,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         healthcareDataEntities = new ArrayList<>();
-        attachedDeviceNames =new ArrayList<>();
+        attachedDeviceNames = new ArrayList<>();
         findViewById(R.id.button).setOnClickListener(
                 this::getDataFromServer
         );
@@ -130,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
     @Override
     protected void onDestroy() {
         // 接続している可能性のある全てのデバイスとのBluetooth接続を切ります
-        attachedDeviceNames.forEach(deviceName-> dm.revokeBluetooth(deviceName));
+        attachedDeviceNames.forEach(deviceName -> dm.revokeBluetooth(deviceName));
         super.onDestroy();
     }
 
@@ -159,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      * <p>
      * 今回はサーバーにデータを保存する処理のみ行っています
      *
-     * @param deviceHandler        DeviceHandler
+     * @param deviceHandler          DeviceHandler
      * @param healthcareDataEntities healthcare デバイスの測定結果
      */
     @Override
