@@ -29,6 +29,10 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
     // このActivityに接続しているデバイスの名前一覧
     private ArrayList<String> attachedDeviceNames;
 
+    final String LICENSE = "U2FsdGVkX1+HerQxIOhuKJpZJ9oSlQF/VFiqQghMsROLXKhCuP1sGXUcdoA2tpYUWH84XxqClDQd/wRGX4BHm29VpTLlHoeJUncHFUzDf9g8Ncy1Ur142Ve7kMP3N/scUI9hia4qOrVUG3Az82kvdFeTRaElyyegvbOtBCJyZ/R1ZiJfYKFZXvMNv9NUIul4oM8qwC/WUzDTX0sO+E+bzwg3k34ZNHa/nl1mlSj5nzRoVYQkt237IPbStQ1Vc07YfT5OwsbmoDNqjr2abE7cdLzA1XFcvWMDL8y558AF+rV0giz5wKMBfhCsY0eNC6DsLm4R339vWSHv4fzETC7Fpg==";
+    final String TESTUSERID = "abcdefghijk";
+    final String TESTUSERPASS = "abcdefghijk";
+
     /**
      * onCreate function
      * <p>
@@ -56,15 +60,15 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         // ModelManager init
         mm.init(this);
         // Register License Code to use SDK
-        if (!mm.registerLicense("U2FsdGVkX1+HerQxIOhuKJpZJ9oSlQF/VFiqQghMsROLXKhCuP1sGXUcdoA2tpYUWH84XxqClDQd/wRGX4BHm29VpTLlHoeJUncHFUzDf9g8Ncy1Ur142Ve7kMP3N/scUI9hia4qOrVUG3Az82kvdFeTRaElyyegvbOtBCJyZ/R1ZiJfYKFZXvMNv9NUIul4oM8qwC/WUzDTX0sO+E+bzwg3k34ZNHa/nl1mlSj5nzRoVYQkt237IPbStQ1Vc07YfT5OwsbmoDNqjr2abE7cdLzA1XFcvWMDL8y558AF+rV0giz5wKMBfhCsY0eNC6DsLm4R339vWSHv4fzETC7Fpg==")) {
+        if (!mm.registerLicense(LICENSE)) {
             LogUtil.d("BaseSetting", "[onClick] Failed to register License.");
         }
         // DeviceManager init after ModelManager init
         dm.init(this);
         // Try Login to use HealthPlayer with server
         try {
-            if (!mm.login("abcdefghijk", "abcdefghijk")) {
-                mm.createUserAnonymous("abcdefghijk", "abcdefghijk");
+            if (!mm.login(TESTUSERID, TESTUSERPASS)) {
+                mm.createUserAnonymous(TESTUSERID, TESTUSERPASS);
             }
         } catch (Exception e) {
             LogUtil.d("BaseSetting", "[onClick] Failed to Login.");
