@@ -1,4 +1,4 @@
-package net.healthplayer.dev03;
+package com.practechs.healthplayer.dev03;
 
 import org.junit.Test;
 
