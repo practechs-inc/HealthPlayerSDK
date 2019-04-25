@@ -1,10 +1,11 @@
-package net.healthplayer.sampleforsdk;
+package com.practechs.healthplayer.dev03;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import net.healthplayer.dev03.R;
 import net.healthplayer.sdk.DeviceHandler;
 import net.healthplayer.sdk.DeviceObserver;
 import net.healthplayer.sdk.HealthPlayerDeviceManager;

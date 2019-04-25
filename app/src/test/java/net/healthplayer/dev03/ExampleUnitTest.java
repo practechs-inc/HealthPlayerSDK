@@ -1,4 +1,4 @@
-package net.healthplayer.sampleforsdk;
+package net.healthplayer.dev03;
 
 import org.junit.Test;
 
