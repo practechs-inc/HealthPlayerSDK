@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
     // このActivityに接続しているデバイスの名前一覧
     private ArrayList<String> attachedDeviceNames;
 
-    final String LICENSE = "U2FsdGVkX1+HerQxIOhuKJpZJ9oSlQF/VFiqQghMsROLXKhCuP1sGXUcdoA2tpYUWH84XxqClDQd/wRGX4BHm29VpTLlHoeJUncHFUzDf9g8Ncy1Ur142Ve7kMP3N/scUI9hia4qOrVUG3Az82kvdFeTRaElyyegvbOtBCJyZ/R1ZiJfYKFZXvMNv9NUIul4oM8qwC/WUzDTX0sO+E+bzwg3k34ZNHa/nl1mlSj5nzRoVYQkt237IPbStQ1Vc07YfT5OwsbmoDNqjr2abE7cdLzA1XFcvWMDL8y558AF+rV0giz5wKMBfhCsY0eNC6DsLm4R339vWSHv4fzETC7Fpg==";
+    final String LICENSE = "U2FsdGVkX1+2qQou9nYB2SlxOQeYhg/A9mQYhHzNt8FEwFM6Op9WqoIFs1BzBDCjerfjYOLN/tqyHvM6m8QpJGx+rTkFjjixttERcEQsDpY605C3ympbPLQ+2ZJIWqFTm808Fp2dRCbu77voxCdpYMVqJPgXIrIhSBtVGTnHU1AS6odqi3ihT80THKxP9eL22LGSfBizeqBa7gdJn020pMOMSEU86Wm4tq0cFO9PKqYhhwZVzYKb0bnGvIULVr4Saxe5Vg6f9KcNYLzv7LwH1+EHu2o8HZezbkTCSzl9BH9EBO/90chaZfAr/YEgzly2gPFHGsAokNK07ngs3ZlIKBhxGOS0q7rObchg8VSJ9Xc=";
     final String TESTUSERID = "abcdefghijk";
     final String TESTUSERPASS = "abcdefghijk";
 
@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         }
         // デバイスからのEventの通知先(Activity等)を設定します
         dm.attachDeviceObserver(this);
+        // アプリのDBのデータをAPIサーバーと同期します
+        mm.synchronize();
         mainTextView.setText(getString(R.string.completeinit));
     }
 
@@ -115,8 +117,6 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      */
     private void getDataFromServer(View v) {
         this.connectHeartRateDevice();
-        // データを更新します
-        mm.synchronize();
 
         // ある期間の血圧データをサーバーから取得してみます.
         Calendar start = Calendar.getInstance();
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      * 心拍計を接続します
      */
     private void connectHeartRateDevice() {
-        // Bluetooth で接続します
+        // Bluetooth で接続待機します
         String deviceName = "UA-851PBT-C";
         attachedDeviceNames.add(deviceName);
         dm.invokeBluetooth(deviceName);
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      */
     @Override
     public void notify(DeviceHandler deviceHandler, HealthcareDataEntity healthcareDataEntity) {
-        mm.storeHealthcareData(healthcareDataEntity);
+//        mm.storeHealthcareData(healthcareDataEntity);
     }
 
 
@@ -175,8 +175,8 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      */
     @Override
     public void notify(final DeviceHandler deviceHandler, HealthcareDataEntity[] healthcareDataEntities) {
-        for (HealthcareDataEntity healthcareDataEntity : healthcareDataEntities) {
-            this.notify(deviceHandler, healthcareDataEntity);
-        }
+//        for (HealthcareDataEntity healthcareDataEntity : healthcareDataEntities) {
+//            this.notify(deviceHandler, healthcareDataEntity);
+//        }
     }
 }
