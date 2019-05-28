@@ -1,0 +1,2 @@
+# HealthPlayerSDK
+HealthPlayer SDK itself
