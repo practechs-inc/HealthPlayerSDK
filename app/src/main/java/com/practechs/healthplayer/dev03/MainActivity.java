@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
     private HealthPlayerDeviceManager dm = HealthPlayerDeviceManager.getInstance();
     private HealthPlayerModelManager mm = HealthPlayerModelManager.getInstance();
     private TextView mainTextView;
+    private TextView subTextView;
     private ArrayList<HealthcareDataEntity> healthcareDataEntities;
     // このActivityに接続しているデバイスの名前一覧
     private ArrayList<String> attachedDeviceNames;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
                 this::getDataFromServer
         );
         mainTextView = findViewById(R.id.mainTextView);
+        subTextView = findViewById(R.id.subTextView);
 
         // initialize SDK
         mainTextView.setText(getString(R.string.initializing));
@@ -110,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      * @param v view
      */
     private void getDataFromServer(View v) {
+        mainTextView.setText("bluetooth connect");
         this.connectHeartRateDevice();
+
 
         // ある期間の血圧データをサーバーから取得してみます.
         Calendar start = Calendar.getInstance();
@@ -118,9 +122,9 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         start.set(2019, 1, 1);
         end.set(2019, 5, 1);
         mm.acquireHealthcareData("heartRate", start, end, healthcareDataEntities);
-        HealthcareDataEntity data =healthcareDataEntities.get(healthcareDataEntities.size()-1);
-        mainTextView.setText(getString(R.string.data_from_device, data.getKind()
-                , data.getValue().toString()));
+//        HealthcareDataEntity data =healthcareDataEntities.get(healthcareDataEntities.size()-1);
+//        mainTextView.setText(getString(R.string.data_from_device, data.getKind()
+//                , data.getValue().toString()));
     }
 
     /**
@@ -129,8 +133,10 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
     private void connectHeartRateDevice() {
         // Bluetooth で接続待機します
         String deviceName = "UA-851PBT-C";
+        subTextView.setText(deviceName);
         attachedDeviceNames.add(deviceName);
-        dm.invokeBluetooth(deviceName);
+        boolean is_invoked=dm.invokeBluetooth(deviceName);
+        mainTextView.setText(getString(R.string.is_invoked)+is_invoked);
     }
 
     @Override
@@ -156,7 +162,8 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      */
     @Override
     public void notify(DeviceHandler deviceHandler, HealthcareDataEntity healthcareDataEntity) {
-//        mm.storeHealthcareData(healthcareDataEntity);
+        mainTextView.setText("health data notify");
+        mm.storeHealthcareData(healthcareDataEntity);
     }
 
 
@@ -170,8 +177,8 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      */
     @Override
     public void notify(final DeviceHandler deviceHandler, HealthcareDataEntity[] healthcareDataEntities) {
-//        for (HealthcareDataEntity healthcareDataEntity : healthcareDataEntities) {
-//            this.notify(deviceHandler, healthcareDataEntity);
-//        }
+        for (HealthcareDataEntity healthcareDataEntity : healthcareDataEntities) {
+            this.notify(deviceHandler, healthcareDataEntity);
+        }
     }
 }
