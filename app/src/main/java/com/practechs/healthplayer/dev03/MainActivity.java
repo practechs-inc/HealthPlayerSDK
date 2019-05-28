@@ -122,9 +122,9 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         start.set(2019, 1, 1);
         end.set(2019, 5, 1);
         mm.acquireHealthcareData("heartRate", start, end, healthcareDataEntities);
-//        HealthcareDataEntity data =healthcareDataEntities.get(healthcareDataEntities.size()-1);
-//        mainTextView.setText(getString(R.string.data_from_device, data.getKind()
-//                , data.getValue().toString()));
+        HealthcareDataEntity data =healthcareDataEntities.get(healthcareDataEntities.size()-1);
+        mainTextView.setText(getString(R.string.data_from_device, data.getKind()
+                , data.getValue().toString()));
     }
 
     /**
