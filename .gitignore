@@ -12,6 +12,10 @@
 /.idea/*.old
 .DS_Store
 /build
+/tmp
+
+/app/libs/modelmanager-release.aar
+/app/libs/devicemanager-release.aar
 
 /captures
 .externalNativeBuild
