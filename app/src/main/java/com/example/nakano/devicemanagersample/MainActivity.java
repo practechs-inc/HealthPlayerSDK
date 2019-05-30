@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         });
 
         findViewById(R.id.button2).setOnClickListener((view) -> {
-            s result = dm.invokeBluetooth("UC-411PBT-C", MainActivity.this);
+            boolean result = dm.invokeBluetooth("UC-411PBT-C", MainActivity.this);
             Log.i("notify", "invokeBluetooth: " + result);
         });
     }
