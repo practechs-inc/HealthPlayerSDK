@@ -1,4 +1,4 @@
-package com.practechs.healthplayer.dev03;
+package com.example.nakano.devicemanagersample;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.practechs.healthplayer.dev03", appContext.getPackageName());
+        assertEquals("com.example.nakano.devicemanagersample", appContext.getPackageName());
     }
 }

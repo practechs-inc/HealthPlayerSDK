@@ -1,4 +1,4 @@
-package com.practechs.healthplayer.dev03;
+package com.example.nakano.devicemanagersample;
 
 import org.junit.Test;
 

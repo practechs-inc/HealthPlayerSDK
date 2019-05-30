@@ -1,0 +1,4 @@
+configurations.create("default")
+artifacts.add("default", file('devicemanager-release.aar'))
+artifacts.add("default", file('modelmanager-release.aar'))
+task testClasses {}
