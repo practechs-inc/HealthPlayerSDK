@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
         birth.set(1998, 1, 17);
         String gender = "1";
         double height = 160.0;
-        double weight = 50.2;
+        double weight = 11.2;
         String area = "tokyo";
         return new UserProfileEntity(birth, gender, height, weight, area);
     }
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements DeviceObserver {
      *
      * @param v view
      */
+
     private void getDataFromServer(View v) {
         mainTextView.setText("bluetooth connect");
         this.connectHeartRateDevice();
